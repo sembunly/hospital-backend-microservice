@@ -1,0 +1,10 @@
+{
+  "name": "hospital-laravel-microservice",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"cd hospital.auth-service && php artisan serve --port=8001\" \"cd hospital.patient-service && php artisan serve --port=8002\" \"cd hospital.opd-service && php artisan serve --port=8003\" \"cd hospital.consultation-service && php artisan serve --port=8004\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
