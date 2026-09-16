@@ -8,40 +8,24 @@ class Patient extends Model
 {
     protected $fillable = [
         'patient_code',
-        'surname',
-        'name',
-        'sex',
-        'birthdate',
+        'first_name',
+        'last_name',
+        'gender',
+        'date_of_birth',
         'phone',
-        'nationality',
-        'occupation',
-        'marital_status',
-        'death_date',
-        'spid',
+        'email',
+        'identification_type',
+        'identification_number',
+        'disability',
+        'photo',
+        'province_id',
+        'district_id',
+        'commune_id',
+        'village_id',
+        'address',
     ];
 
     protected $casts = [
-        'birthdate' => 'date',
-        'death_date' => 'date',
+        'date_of_birth' => 'date',
     ];
-
-    public function address()
-    {
-        return $this->hasOne(PatientAddress::class);
-    }
-
-    public function identifications()
-    {
-        return $this->hasMany(PatientIdentification::class);
-    }
-
-    public function disabilities()
-    {
-        return $this->hasMany(PatientDisability::class);
-    }
-
-    public function photos()
-    {
-        return $this->hasMany(PatientPhoto::class);
-    }
 }
