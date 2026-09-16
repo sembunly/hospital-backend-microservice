@@ -5,6 +5,7 @@ use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/patients', [PatientController::class, 'store']);
+Route::match(['put', 'patch'], '/patients/{patient}', [PatientController::class, 'update']);
 
 Route::get('/addresses/provinces', [AddressController::class, 'provinces'])
     ->name('addresses.provinces');
