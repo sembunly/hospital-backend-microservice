@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Patient extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'patient_code',
         'first_name',
@@ -23,9 +25,14 @@ class Patient extends Model
         'commune_id',
         'village_id',
         'address',
+        'is_active',
+        'created_by',
+        'modified_by',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date',
+        // Keep the three-state lifecycle value (0 = deleted, 1 = active, 2 = edited).
+        'is_active' => 'integer',
     ];
 }

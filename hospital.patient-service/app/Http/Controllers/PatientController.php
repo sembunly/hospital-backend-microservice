@@ -7,12 +7,24 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
+    public function index()
+    {
+        return response()->json(['data' => Patient::query()->where('is_active', '!=', 0)->latest()->get()]);
+    }
+
+    public function show(Patient $patient)
+    {
+        return response()->json(['data' => ['patient' => $patient]]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate($this->rules());
 
         $patient = Patient::create([
             ...$validated['patient'],
+            'is_active' => 1,
+            'created_by' => auth()->id(),
             'patient_code' => $this->generatePatientCode(),
         ]);
 
@@ -29,7 +41,10 @@ class PatientController extends Controller
     {
         $validated = $request->validate($this->rules(true));
 
-        $patient->update($validated['patient']);
+        $patient->fill($validated['patient']);
+        $patient->is_active = 2;
+        $patient->modified_by = auth()->id();
+        $patient->save();
 
         return response()->json([
             'success' => true,
@@ -38,6 +53,15 @@ class PatientController extends Controller
                 'patient' => $patient->fresh(),
             ],
         ]);
+    }
+
+    public function destroy(Patient $patient)
+    {
+        $patient->is_active = 0;
+        $patient->modified_by = auth()->id();
+        $patient->save();
+
+        return response()->json(['success' => true, 'message' => 'Patient deactivated successfully.']);
     }
 
     private function rules(bool $updating = false): array
